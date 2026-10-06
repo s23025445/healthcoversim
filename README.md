@@ -9,6 +9,16 @@ HealthCoverSim is a small web app for creating, saving, updating, and viewing he
 - SQLite with `better-sqlite3` for local storage
 - Nodemon for server development
 
+## Database setup
+
+No separate database command is needed. When the server starts, `server/db.js`:
+
+1. Creates `server/data/` if it does not exist.
+2. Opens or creates `server/data/healthcoversim.db`.
+3. Automatically adds the `quotes` table schema if it does not already exist.
+
+The local `data/` folder is ignored by Git, so each new local setup starts with its own database file.
+
 ## Run locally
 
 Install the dependencies once for each app:
@@ -46,16 +56,6 @@ cd client
 npm run build
 npm run lint
 ```
-
-## Database setup
-
-No separate database command is needed. When the server starts, `server/db.js`:
-
-1. Creates `server/data/` if it does not exist.
-2. Opens or creates `server/data/healthcoversim.db`.
-3. Creates the `quotes` table if it does not already exist.
-
-The local `data/` folder is ignored by Git, so each new local setup starts with its own database file.
 
 ## Main API endpoints
 
