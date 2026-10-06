@@ -6,12 +6,13 @@ import { fileURLToPath } from "node:url";
 const currentDirectory = dirname(fileURLToPath(import.meta.url));
 const dataDirectory = join(currentDirectory, "data");
 
-// Keep local database files outside the source tree and create the directory
-// automatically on a fresh checkout.
+// Make a folder for the local database if it is missing.
 mkdirSync(dataDirectory, { recursive: true });
 
+// Open the database file, or make it if it is not there yet.
 const db = new Database(join(dataDirectory, "healthcoversim.db"));
 
+// Make the table the first time the server starts.
 db.exec(`
   CREATE TABLE IF NOT EXISTS quotes (
     id INTEGER PRIMARY KEY AUTOINCREMENT,
