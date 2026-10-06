@@ -1,4 +1,5 @@
 import express from "express";
+import db from "./db.js";
 
 const app = express();
 const PORT = 3001;
@@ -15,6 +16,11 @@ app.get("/api/hello", (req, res) => {
   res.json({
     message: "Hello from the API!",
   });
+});
+
+app.get("/api/health", (req, res) => {
+  db.prepare("SELECT 1").get();
+  res.json({ status: "ok", database: "connected" });
 });
 
 app.listen(PORT, () => {
