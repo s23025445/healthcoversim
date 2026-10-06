@@ -1,6 +1,6 @@
-import Database from "better-sqlite3";
 import { mkdirSync } from "node:fs";
 import { dirname, join } from "node:path";
+import { DatabaseSync } from "node:sqlite";
 import { fileURLToPath } from "node:url";
 
 const currentDirectory = dirname(fileURLToPath(import.meta.url));
@@ -10,7 +10,7 @@ const dataDirectory = join(currentDirectory, "data");
 mkdirSync(dataDirectory, { recursive: true });
 
 // Open the database file, or make it if it is not there yet.
-const db = new Database(join(dataDirectory, "healthcoversim.db"));
+const db = new DatabaseSync(join(dataDirectory, "healthcoversim.db"));
 
 // Make the table the first time the server starts.
 db.exec(`

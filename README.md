@@ -6,7 +6,7 @@ HealthCoverSim is a small web app for creating, saving, updating, and viewing he
 
 - React, TypeScript, Vite, and React Router for the client
 - Express for the API server
-- SQLite with `better-sqlite3` for local storage
+- SQLite with Node's built-in `node:sqlite` module for local storage
 - Nodemon for server development
 
 ## Database setup
@@ -20,6 +20,8 @@ No separate database command is needed. When the server starts, `server/db.js`:
 The local `data/` folder is ignored by Git, so each new local setup starts with its own database file.
 
 ## Run locally
+
+Use Node.js 22.13 or newer. The server uses Node's built-in `node:sqlite` module, so no C++ build tools are required.
 
 Install the dependencies once for each app:
 
