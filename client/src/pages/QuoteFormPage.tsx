@@ -17,6 +17,11 @@ type QuoteForm = {
 }
 
 const emptyForm: QuoteForm = { customerName: '', coverType: 'Single', applicant1Age: '', applicant1CoverHistory: '', applicant2Age: '', applicant2CoverHistory: '', hospitalCover: 'None', extrasCover: 'None', paymentFrequency: 'Monthly', annualDiscount: '0', notes: '' }
+const coverTypes = ['Single', 'Couple', 'Family']
+const coverHistories = ['Yes', 'No', 'Not sure']
+const hospitalCoverLevels = ['None', 'Basic', 'Bronze', 'Silver', 'Gold']
+const extrasCoverLevels = ['None', 'Basic', 'Standard', 'Premium']
+const paymentFrequencies = ['Monthly', 'Yearly']
 
 function toForm(quote: Quote): QuoteForm {
   return {
@@ -67,12 +72,16 @@ function QuoteFormPage() {
     const applicant2Age = Number(form.applicant2Age)
     const annualDiscount = Number(form.annualDiscount)
     if (!form.customerName.trim()) formErrors.push('Customer name is required.')
-    if (!form.applicant1CoverHistory) formErrors.push('Choose Applicant 1 cover history.')
+    if (!coverTypes.includes(form.coverType)) formErrors.push('Choose a valid cover type.')
+    if (!coverHistories.includes(form.applicant1CoverHistory)) formErrors.push('Choose a valid Applicant 1 cover history.')
     if (!Number.isInteger(applicant1Age) || applicant1Age < 18 || applicant1Age > 100) formErrors.push('Applicant 1 age must be from 18 to 100.')
     if (needsApplicant2) {
-      if (!form.applicant2CoverHistory) formErrors.push('Choose Applicant 2 cover history.')
+      if (!coverHistories.includes(form.applicant2CoverHistory)) formErrors.push('Choose a valid Applicant 2 cover history.')
       if (!Number.isInteger(applicant2Age) || applicant2Age < 18 || applicant2Age > 100) formErrors.push('Applicant 2 age must be from 18 to 100.')
     }
+    if (!hospitalCoverLevels.includes(form.hospitalCover)) formErrors.push('Choose a valid hospital cover level.')
+    if (!extrasCoverLevels.includes(form.extrasCover)) formErrors.push('Choose a valid extras cover level.')
+    if (!paymentFrequencies.includes(form.paymentFrequency)) formErrors.push('Choose a valid payment frequency.')
     if (!Number.isFinite(annualDiscount) || annualDiscount < 0 || annualDiscount > 10) formErrors.push('Annual discount must be from 0% to 10%.')
     return formErrors
   }
