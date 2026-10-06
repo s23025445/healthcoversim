@@ -1,5 +1,6 @@
 import { Router } from "express";
 import db from "../db.js";
+import { calculatePremium } from "../premiumCalculation.js";
 import { validateQuote } from "../quoteValidation.js";
 
 const router = Router();
@@ -88,7 +89,17 @@ router.get("/:id", (req, res) => {
   const quote = findQuote.get(id);
   if (!quote) return res.status(404).json({ error: "Quote not found." });
 
-  return res.json({ quote: formatQuote(quote) });
+  const formattedQuote = formatQuote(quote);
+
+  try {
+    return res.json({ quote: formattedQuote, calculation: calculatePremium(formattedQuote) });
+  } catch (error) {
+    return res.status(422).json({
+      error: "Quote cannot be calculated.",
+      details: error.message,
+      quote: formattedQuote,
+    });
+  }
 });
 
 router.post("/", (req, res) => {
